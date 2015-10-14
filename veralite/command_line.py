@@ -9,9 +9,10 @@ from __future__ import print_function
 import argparse
 import os
 import sys
+import configparser
 
-from . import device
-from . import utils
+from device import Light
+from veralite import Veralite
 
 
 def parse_args():
@@ -23,9 +24,42 @@ def parse_args():
                         help='config file (default %s)' % config_file,
                         metavar='FILE')
 
+    args, remaining_argv = parser.parse_known_args()
+
+    defaults = {}
+    config_file = os.path.expanduser(args.conf)
+    if os.path.exists(config_file):
+        config = configparser.ConfigParser()
+        config.read([config_file])
+
+    description = 'Command line interface to Veralite™ Smart Home Controller'
+    parser = argparse.ArgumentParser(description=description,
+                                     parents=[parser])
+
+    parser.set_defaults(**defaults)
+
+    parser.add_argument('--ip', dest='ip_address',
+                        help='the ip for veralite system',
+                        metavar='IP',
+                        required=True)
+
+    parser.add_argument('-u', '--user', dest='user',
+                        help='username for nest.com',
+                        metavar='USER',
+                        required=True)
+
+    parser.add_argument('-p', '--password', dest='password',
+                        help='password for nest.com',
+                        metavar='PASSWORD',
+                        required=True)
+
 
 def main():
     args = parse_args()
+
+    with Veralite(args.ip, args.user, args.password) as vapi:
+
+
 
 if __name__ == '__main__':
     main()
