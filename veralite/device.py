@@ -24,6 +24,17 @@ class Device:
 
 
 class Light(Device):
+    def __init__(self, identifier, name, room, state):
+        self.identifier = identifier
+        self.name = name
+        self.room = room
+        self.state = state
+
+    def __repr__(self):
+        return json.dumps({"identifier": self.identifier, "name": self.name, "room": self.room, "state": self.state})
+
+
+class DimmingLight(Device):
     def __init__(self, identifier, name, room, state, brightness):
         self.identifier = identifier
         self.name = name
@@ -34,6 +45,17 @@ class Light(Device):
     def __repr__(self):
         return json.dumps({"identifier": self.identifier, "name": self.name, "room": self.room, "state": self.state,
                            "brightness": self.brightness})
+
+
+class Switch(Device):
+    def __init__(self, identifier, name, room, state):
+        self.identifier = identifier
+        self.name = name
+        self.room = room
+        self.state = state
+
+    def __repr__(self):
+        return json.dumps({"identifier": self.identifier, "name": self.name, "room": self.room, "state": self.state})
 
 
 class MotionSensor(Device):

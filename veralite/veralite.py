@@ -10,6 +10,8 @@ import logging
 from requests.auth import HTTPDigestAuth
 
 from device import Light
+from device import DimmingLight
+from device import Switch
 from device import MotionSensor
 from scene import Scene
 
@@ -25,9 +27,10 @@ class Veralite:
         self.user = user
         self.password = password
         self.rooms = {}
-        self.lights = {}
+        self.dimming_lights = {}
         self.scenes = {}
         self.motion_sensors = {}
+        self.switches = {}
 
     def __enter__(self):
         self.update_devices()
@@ -96,12 +99,17 @@ class Veralite:
 
                     self.load_sensor(device, room_name, motion=True)
 
-                elif ("Light" in device["device_type"] or "WeMoControllee" in device["device_type"]) \
+                elif ("DimmableLight" in device["device_type"] or "WeMoControllee" in device["device_type"]) \
                         and "Sensor" not in device["device_type"]:
 
-                    self.load_light(device, room_name)
+                    self.load_dimming_light(device, room_name)
 
-    def load_light(self, device, room_name):
+                elif ("BinaryLight" in device["device_type"] or "WeMoControllee" in device["device_type"]) \
+                        and "Sensor" not in device["device_type"]:
+
+                    self.load_switch(device, room_name)
+
+    def load_dimming_light(self, device, room_name):
         """
 
         :param device:
@@ -117,7 +125,23 @@ class Veralite:
                 brightness = state["value"]
 
         # add light to dictionary
-        self.lights[device["id"]] = Light(device["id"], device["name"], room_name, device_state, brightness)
+        self.dimming_lights[device["id"]] = DimmingLight(device["id"], device["name"], room_name, device_state,
+                                                         brightness)
+
+    def load_switch(self, device, room_name):
+        """
+
+        :param device:
+        :param room_name:
+        """
+        # get device state
+        device_state = None
+        for state in device["states"]:
+            if state["variable"] == "Status":
+                device_state = state["value"]
+
+        # add light to dictionary
+        self.switches[device["id"]] = Switch(device["id"], device["name"], room_name, device_state)
 
     def load_sensor(self, device, room_name, motion=False):
         """
