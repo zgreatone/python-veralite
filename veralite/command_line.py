@@ -58,7 +58,7 @@ def main():
     args = parse_args()
 
     with Veralite(args.ip, args.user, args.password) as vapi:
-
+        vapi.devices
 
 
 if __name__ == '__main__':

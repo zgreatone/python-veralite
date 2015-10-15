@@ -18,16 +18,23 @@ URL_ENDPOINT = '/port_3480/data_request?id=user_data'
 # create logger
 logger = logging.getLogger('veralite')
 
-class Veralite:
 
+class Veralite:
     def __init__(self, ip, user=None, password=None):
         self.ip = ip
         self.user = user
         self.password = password
         self.rooms = {}
-        self.devices = {}
+        self.lights = {}
         self.scenes = {}
-        self.sensors = {}
+        self.motion_sensors = {}
+
+    def __enter__(self):
+        self.update_devices()
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        return False
 
     def get_data(self):
         """
@@ -40,6 +47,8 @@ class Veralite:
         ip = self.ip
         p = {'rand': random.random()}
         url = "http://" + ip + URL_ENDPOINT
+
+        # TODO handle exception in the case of connection issues
         if user is not None and password is not None:
             response = requests.get(url,
                                     params=p,
@@ -77,7 +86,7 @@ class Veralite:
             if "device_type" in device:
 
                 # get room name
-                if int(device["room"]) not in self.rooms:
+                if "room" not in device or int(device["room"]) not in self.rooms:
                     room_name = "Room not found"
                 else:
                     room_name = self.rooms[int(device["room"])]
@@ -85,10 +94,10 @@ class Veralite:
                 # motion sensor
                 if "MotionSensor" in device["device_type"]:
 
-                    self.load_sensor(device, room_name)
+                    self.load_sensor(device, room_name, motion=True)
 
-                elif ("Light" in device["device_type"] or "WeMoControllee" in device["device_type"]) and "Sensor" not in \
-                        device["device_type"]:
+                elif ("Light" in device["device_type"] or "WeMoControllee" in device["device_type"]) \
+                        and "Sensor" not in device["device_type"]:
 
                     self.load_light(device, room_name)
 
@@ -100,6 +109,7 @@ class Veralite:
         """
         # get device state
         brightness = None
+        device_state = None
         for state in device["states"]:
             if state["variable"] == "Status":
                 device_state = state["value"]
@@ -109,7 +119,7 @@ class Veralite:
         # add light to dictionary
         self.lights[device["id"]] = Light(device["id"], device["name"], room_name, device_state, brightness)
 
-    def load_sensor(self, device, room_name):
+    def load_sensor(self, device, room_name, motion=False):
         """
 
         :param device:
@@ -118,7 +128,7 @@ class Veralite:
         configured = None
         capabilities = None
         armed = None
-        motion = False
+        # motion = False
         for state in device["states"]:
             if state["variable"] == "Armed":
                 device_state = state["value"]
@@ -127,16 +137,16 @@ class Veralite:
                 capabilities = state["value"]
             if state["variable"] == "Configured":
                 configured = state["value"]
-            if state["variable"] == "SensorMlType":
-                if state["value"] == "1,3,5":
-                    motion = True
+                # if state["variable"] == "SensorMlType":
+                #     if state["value"] == "1,3,5":
+                #         motion = True
 
         # add motion sensor to dictionary
         if motion:
-            self.sensors[device["id"]] = MotionSensor(device["id"],
-                                                      device["name"],
-                                                      room_name,
-                                                      device_state,
-                                                      configured,
-                                                      capabilities,
-                                                      armed)
+            self.motion_sensors[device["id"]] = MotionSensor(device["id"],
+                                                             device["name"],
+                                                             room_name,
+                                                             device_state,
+                                                             configured,
+                                                             capabilities,
+                                                             armed)
