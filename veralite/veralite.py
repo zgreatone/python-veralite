@@ -3,17 +3,15 @@
    Okpe Pessu <opessu@zgreatone.net>
 """
 import simplejson as json
-import requests
-import random
 import logging
 
-from requests.auth import HTTPDigestAuth
 
-from device import Light
 from device import DimmingLight
 from device import Switch
 from device import MotionSensor
 from scene import Scene
+
+import utils
 
 URL_ENDPOINT = '/port_3480/data_request?id=user_data'
 
@@ -45,22 +43,8 @@ class Veralite:
         :return:
         """
         logger.debug("retrieving data from veralite")
-        user = self.user
-        password = self.password
-        ip = self.ip
-        p = {'rand': random.random()}
-        url = "http://" + ip + URL_ENDPOINT
 
-        # TODO handle exception in the case of connection issues
-        if user is not None and password is not None:
-            response = requests.get(url,
-                                    params=p,
-                                    auth=HTTPDigestAuth(user, password))
-        else:
-            response = requests.get(url,
-                                    params=p)
-
-        response_content = json.loads(response.__dict__['_content'])
+        response_content = utils.perform_request(self.ip, self.user, self.password, URL_ENDPOINT, {})
 
         return response_content
 

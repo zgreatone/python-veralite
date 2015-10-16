@@ -34,7 +34,7 @@ class Light(Device):
         return json.dumps({"identifier": self.identifier, "name": self.name, "room": self.room, "state": self.state})
 
 
-class DimmingLight(Device):
+class DimmingLight(Light):
     def __init__(self, identifier, name, room, state, brightness):
         self.identifier = identifier
         self.name = name
@@ -47,7 +47,7 @@ class DimmingLight(Device):
                            "brightness": self.brightness})
 
 
-class Switch(Device):
+class Switch(Light):
     def __init__(self, identifier, name, room, state):
         self.identifier = identifier
         self.name = name
@@ -59,6 +59,8 @@ class Switch(Device):
 
 
 class MotionSensor(Device):
+    STATE_SERVICE = "urn:micasaverde-com:serviceId:SecuritySensor1"
+
     def __init__(self, identifier, name, room, state, configured, capabilities, armed):
         self.identifier = identifier
         self.name = name
