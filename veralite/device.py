@@ -5,7 +5,7 @@
 import simplejson as json
 
 
-class Device:
+class Device(object):
     def __init__(self, identifier, name, room, state):
         """
 

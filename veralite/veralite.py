@@ -1,8 +1,9 @@
 #!/usr/bin/python
 """Veralite™
    Okpe Pessu <opessu@zgreatone.net>
+
+   Module to get interact with veralite and devices it controls
 """
-import simplejson as json
 import logging
 
 
@@ -13,13 +14,14 @@ from scene import Scene
 
 import utils
 
-URL_ENDPOINT = '/port_3480/data_request?id=user_data'
+
+DATA_ENDPOINT = '/port_3480/data_request?id=user_data'
 
 # create logger
 logger = logging.getLogger('veralite')
 
 
-class Veralite:
+class Veralite(object):
     def __init__(self, ip, user=None, password=None):
         self.ip = ip
         self.user = user
@@ -44,7 +46,7 @@ class Veralite:
         """
         logger.debug("retrieving data from veralite")
 
-        response_content = utils.perform_request(self.ip, self.user, self.password, URL_ENDPOINT, {})
+        response_content = utils.perform_request(self.ip, self.user, self.password, DATA_ENDPOINT, {})
 
         return response_content
 

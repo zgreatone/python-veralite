@@ -1,6 +1,8 @@
 #!/usr/bin/python
 """Utilities for Python Veralite™ Module
    Okpe Pessu <opessu@zgreatone.net>
+
+   Module to hold utility methods to help with connection and data formatting
 """
 import simplejson as json
 import random
