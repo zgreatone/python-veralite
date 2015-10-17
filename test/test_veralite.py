@@ -24,7 +24,15 @@ class TestVeralite(unittest.TestCase):
 
     def test_update_device(self):
         self.veralite.update_devices()
-        self.veralite.switches
+
+        switches = self.veralite.switches
+        self.assertEquals(7, len(switches))
+
+        dimming_lights = self.veralite.dimming_lights
+        self.assertEquals(10, len(dimming_lights))
+
+        motion_sensors = self.veralite.motion_sensors
+        self.assertEquals(3, len(motion_sensors))
 
 
 if __name__ == '__main__':

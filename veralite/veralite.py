@@ -6,14 +6,12 @@
 """
 import logging
 
-
 from device import DimmingLight
 from device import Switch
 from device import MotionSensor
 from scene import Scene
 
 import utils
-
 
 DATA_ENDPOINT = '/port_3480/data_request?id=user_data'
 
@@ -85,7 +83,7 @@ class Veralite(object):
 
                     self.load_sensor(device, room_name, motion=True)
 
-                elif ("DimmableLight" in device["device_type"] or "WeMoControllee" in device["device_type"]) \
+                elif ("DimmableLight" in device["device_type"] in device["device_type"]) \
                         and "Sensor" not in device["device_type"]:
 
                     self.load_dimming_light(device, room_name)
@@ -160,3 +158,37 @@ class Veralite(object):
                                                              configured,
                                                              capabilities,
                                                              armed)
+
+    def turn_on_dimming_light(self, device):
+        """
+
+        :param device:
+        :return:
+        """
+        try:
+            return utils.update_device_state(self.ip, self.user, self.password, device, "1")
+        except Exception as e:
+            return {'result': False, 'message': str(e)}
+
+    def turn_off_dimming_light(self, device):
+        """
+
+        :param device:
+        :return:
+        """
+        try:
+            return utils.update_device_state(self.ip, self.user, self.password, device, "0")
+        except Exception as e:
+            return {'result': False, 'message': str(e)}
+
+    def set_brightness_level_dimming_light(self, device, level):
+        """
+
+        :param device:
+        :param level:
+        :return:
+        """
+        try:
+            return utils.update_brightness(self.ip, self.user, self.password, device, level)
+        except Exception as e:
+            return {'result': False, 'message': str(e)}

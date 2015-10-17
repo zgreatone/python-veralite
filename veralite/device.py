@@ -1,6 +1,8 @@
 #!/usr/bin/python
 """Veralite™ Devices
    Okpe Pessu <opessu@zgreatone.net>
+
+   Module holding device classes
 """
 import simplejson as json
 
