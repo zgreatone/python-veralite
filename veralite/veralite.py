@@ -166,7 +166,9 @@ class Veralite(object):
         :return:
         """
         try:
-            return utils.update_device_state(self.ip, self.user, self.password, device, "1")
+            response = utils.update_device_state(self.ip, self.user, self.password, device, "1")
+            # TODO update device for state change
+            return response
         except Exception as e:
             return {'result': False, 'message': str(e)}
 
@@ -177,7 +179,9 @@ class Veralite(object):
         :return:
         """
         try:
-            return utils.update_device_state(self.ip, self.user, self.password, device, "0")
+            response = utils.update_device_state(self.ip, self.user, self.password, device, "0")
+            # TODO update device for state change
+            return response
         except Exception as e:
             return {'result': False, 'message': str(e)}
 
@@ -189,6 +193,60 @@ class Veralite(object):
         :return:
         """
         try:
-            return utils.update_brightness(self.ip, self.user, self.password, device, level)
+            response = utils.update_brightness(self.ip, self.user, self.password, device, level)
+            # TODO update device for state change
+            return response
+        except Exception as e:
+            return {'result': False, 'message': str(e)}
+
+    def turn_on_switch(self, device):
+        """
+
+        :param device:
+        :return:
+        """
+        try:
+            response = utils.update_device_state(self.ip, self.user, self.password, device, "1")
+            # TODO update device for state change
+            return response
+        except Exception as e:
+            return {'result': False, 'message': str(e)}
+
+    def turn_off_switch(self, device):
+        """
+
+        :param device:
+        :return:
+        """
+        try:
+            response = utils.update_device_state(self.ip, self.user, self.password, device, "0")
+            # TODO update device for state change
+            return response
+        except Exception as e:
+            return {'result': False, 'message': str(e)}
+
+    def arm_motion_sensor(self, device):
+        """
+
+        :param device:
+        :return:
+        """
+        try:
+            response = utils.update_sensor_state(self.ip, self.user, self.password, device, "1")
+            # TODO update device for state change
+            return response
+        except Exception as e:
+            return {'result': False, 'message': str(e)}
+
+    def disarm_motion_sensor(self, device):
+        """
+
+        :param device:
+        :return:
+        """
+        try:
+            response = utils.update_sensor_state(self.ip, self.user, self.password, device, "0")
+            # TODO update device for state change
+            return response
         except Exception as e:
             return {'result': False, 'message': str(e)}
