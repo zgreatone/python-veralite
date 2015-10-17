@@ -22,9 +22,14 @@ setup(name='python-veralite',
       author='Okpe Pessu',
       author_email='opessu@zgreatone.net',
       url='https://github.com/zgreatone/python-veralite/',
-      packages=['veralite'],
+      packages=['veralite', 'test'],
       install_requires=['simplejson'],
       entry_points={
           'console_scripts': ['veralite=veralite.command_line:main'],
-      }
+      },
+      classifiers=[
+          "Development Status :: 3 - Alpha",
+          "Intended Audience :: Developers",
+          "Topic :: Utilities"
+      ]
       )
