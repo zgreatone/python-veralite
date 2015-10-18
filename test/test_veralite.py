@@ -25,6 +25,9 @@ class TestVeralite(unittest.TestCase):
     def test_update_device(self):
         self.veralite.update_devices()
 
+        # where are the constants below (7,10,3) coming from? I think this test might
+        # fail when someone does not have the same exact config as you do. perhaps do
+        # discovery, then assert what your code returns matches what was found in discovery?
         switches = self.veralite.switches
         self.assertEquals(7, len(switches))
 
