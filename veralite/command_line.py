@@ -76,17 +76,36 @@ def parse_args():
                                                                                      'default is 50',
                                      required=False, default=50)
 
+    # motion sensor subparser setup ###
     motion_parser = subparsers.add_parser('motion', help='motion sensor commands')
     motion_subparser = motion_parser.add_subparsers(dest='sub_command', help='sub command help')
 
     # list motion devices
-    motion_subparser.add_parser('list', help='show vera motion devices')
+    motion_subparser.add_parser('list', help='show vera motion sensor devices')
 
+    modify_motion_parser = motion_subparser.add_parser('modify', help='modify motion sensor state')
+    modify_motion_parser.add_argument('-id', '--identifier', dest='identifier', help='motion sensor identifier',
+                                      required=True)
+    motion_change_group = modify_motion_parser.add_mutually_exclusive_group(required=True)
+    motion_change_group.add_argument('--disarm', action='store_true', default=False,
+                                     help='to disarm sensor')
+    motion_change_group.add_argument('--arm', action='store_true', default=False,
+                                     help='to arm sensor')
+
+    # switch subparser setup ####
     switch_parser = subparsers.add_parser('switch', help='switch commands')
     switch_subparser = switch_parser.add_subparsers(dest='sub_command', help='sub command help')
 
     # list switch devices
     switch_subparser.add_parser('list', help='show vera switch devices')
+
+    modify_switch_parser = switch_subparser.add_parser('modify', help='modify vera switch state')
+    modify_switch_parser.add_argument('-id', '--identifier', dest='identifier', help='switch identifier', required=True)
+    switch_change_group = modify_switch_parser.add_mutually_exclusive_group(required=True)
+    switch_change_group.add_argument('--off', action='store_true', default=False,
+                                     help='to turn off switch')
+    switch_change_group.add_argument('--on', action='store_true', default=False,
+                                     help='to turn on switch')
 
     return parser.parse_args()
 
@@ -126,20 +145,20 @@ def handle_light_command(args, vapi):
 
     elif args.sub_command == "modify":
         # handle modification of light
-        light_identifier = args.identifier
+        light_identifier = int(args.identifier)
         if light_identifier in dimming_lights:
-            light_device = vapi.dimming_lights[light_identifier]
+            light_device = dimming_lights[light_identifier]
             if args.on:
                 print("\t" + "Turning ON Light Device[" + light_device.name + "]")
                 response = vapi.turn_on_dimming_light(light_device)
-                if response.result:
+                if response['result']:
                     print("\t\tResponse: OK")
                 else:
                     print("\t\tResponse: BAD, Reason[" + response.message + "]")
             elif args.off:
                 print("\t" + "Turning OFF Light Device[" + light_device.name + "]")
                 response = vapi.turn_off_dimming_light(light_device)
-                if response.result:
+                if response['result']:
                     print("\t\tResponse: OK")
                 else:
                     print("\t\tResponse: BAD, Reason[" + response.message + "]")
@@ -150,13 +169,12 @@ def handle_light_command(args, vapi):
                 response = vapi.set_brightness_level_dimming_light(light_device, brightness_level)
 
                 # handle response
-                if response.result:
+                if response['result']:
                     print("\t\tResponse: OK")
                 else:
                     print("\t\tResponse: BAD, Reason[" + response.message + "]")
-
         else:
-            print("light with identifier[" + light_identifier + "] could not be found")
+            print("\tNo Switch Device found with id[" + str(light_identifier) + "]")
 
 
 def handle_switch_command(args, vapi):
@@ -166,11 +184,32 @@ def handle_switch_command(args, vapi):
     :param vapi: veralite object
     """
     switches = vapi.switches
-    # handle light command
+    # handle switch command
     if "sub_command" not in args or args.sub_command is None or args.sub_command == "list":
         header = "Switches"
 
         list_devices(header, switches)
+    elif args.sub_command == "modify":
+        # handle modification of switch
+        switch_identifier = int(args.identifier)
+        if switch_identifier in switches:
+            switch_device = switches[switch_identifier]
+            if args.on:
+                print("\t" + "Turning ON Switch Device[" + switch_device.name + "]")
+                response = vapi.turn_on_switch(switch_device)
+                if response['result']:
+                    print("\t\tResponse: OK")
+                else:
+                    print("\t\tResponse: BAD, Reason[" + response.message + "]")
+            elif args.off:
+                print("\t" + "Turning OFF Switch Device[" + switch_device.name + "]")
+                response = vapi.turn_off_switch(switch_device)
+                if response['result']:
+                    print("\t\tResponse: OK")
+                else:
+                    print("\t\tResponse: BAD, Reason[" + response.message + "]")
+        else:
+            print("\tNo Switch Device found with id[" + str(switch_identifier) + "]")
 
 
 def handle_motion_sensor_command(args, vapi):
@@ -180,11 +219,32 @@ def handle_motion_sensor_command(args, vapi):
     :param vapi: veralite object
     """
     motion_sensors = vapi.motion_sensors
-    # handle light command
+    # handle motion sensor command
     if "sub_command" not in args or args.sub_command is None or args.sub_command == "list":
         header = "Motion Sensors"
 
         list_devices(header, motion_sensors)
+    elif args.sub_command == "modify":
+        # handle modification of motion sensors
+        motion_sensor_identifier = int(args.identifier)
+        if motion_sensor_identifier in motion_sensors:
+            motion_sensor_device = motion_sensors[motion_sensor_identifier]
+            if args.arm:
+                print("\t" + "Arming Motion Sensor Device[" + motion_sensor_device.name + "]")
+                response = vapi.arm_motion_sensor(motion_sensor_device)
+                if response['result']:
+                    print("\t\tResponse: OK")
+                else:
+                    print("\t\tResponse: BAD, Reason[" + response.message + "]")
+            elif args.disarm:
+                print("\t" + "DisArming Motion Sensor Device[" + motion_sensor_device.name + "]")
+                response = vapi.disarm_motion_sensor(motion_sensor_device)
+                if response['result']:
+                    print("\t\tResponse: OK")
+                else:
+                    print("\t\tResponse: BAD, Reason[" + response.message + "]")
+        else:
+            print("\tNo Motion Sensor Device found with id[" + str(motion_sensor_identifier) + "]")
 
 
 def list_devices(header, devices):
