@@ -60,7 +60,7 @@ def parse_args():
     light_subparser = light_parser.add_subparsers(dest='sub_command', help='sub command help')
 
     # list light devices
-    list_light_parser = light_subparser.add_parser('list', help='show vera light devices')
+    light_subparser.add_parser('list', help='show vera light devices')
 
     modify_light_parser = light_subparser.add_parser('modify', help='modify vera light state')
     modify_light_parser.add_argument('-id', '--identifier', dest='identifier', help='light identifier', required=True)
@@ -99,14 +99,15 @@ def main():
         if "command" not in args:
             print('command not found')
         elif args.command == "light":
+            # handle light command
             handle_light_command(args, vapi)
 
         elif args.command == "motion":
             # handle motion sensor command
-            print("motion")
+            handle_motion_sensor_command(args, vapi)
         elif args.command == "switch":
             # handle switch sensor command
-            print("switch")
+            handle_switch_command(args, vapi)
 
 
 def handle_light_command(args, vapi):
@@ -117,31 +118,82 @@ def handle_light_command(args, vapi):
     """
     dimming_lights = vapi.dimming_lights
     # handle light command
-    if "sub_command" not in args or args.sub_command == "list":
+    if "sub_command" not in args or args.sub_command is None or args.sub_command == "list":
 
-        # sort by identifier
-        sorted_list = sorted(dimming_lights, key=lambda key: dimming_lights[key].identifier)
+        header = "Dimming Lights"
 
-        # print out values
-        for value in sorted_list:
-            print(dimming_lights[value])
+        list_devices(header, dimming_lights)
+
     elif args.sub_command == "modify":
         # handle modification of light
         light_identifier = args.identifier
         if light_identifier in dimming_lights:
             light_device = vapi.dimming_lights[light_identifier]
             if args.on:
-                print("turn on light")
-                vapi.turn_on_dimming_light(light_device)
+                print("\t" + "Turning ON Light Device[" + light_device.name + "]")
+                response = vapi.turn_on_dimming_light(light_device)
+                if response.result:
+                    print("\t\tResponse: OK")
+                else:
+                    print("\t\tResponse: BAD, Reason[" + response.message + "]")
             elif args.off:
-                print("turn off light")
-                vapi.turn_off_dimming_light(light_device)
+                print("\t" + "Turning OFF Light Device[" + light_device.name + "]")
+                response = vapi.turn_off_dimming_light(light_device)
+                if response.result:
+                    print("\t\tResponse: OK")
+                else:
+                    print("\t\tResponse: BAD, Reason[" + response.message + "]")
             elif args.brightness:
-                print("set brightness level")
                 brightness_level = args.level
-                vapi.set_brightness_level_dimming_light(light_device, brightness_level)
+                print("\t" + "Setting Brightness Level of Light Device[" + light_device.name +
+                      "] to [" + brightness_level + "]")
+                response = vapi.set_brightness_level_dimming_light(light_device, brightness_level)
+
+                # handle response
+                if response.result:
+                    print("\t\tResponse: OK")
+                else:
+                    print("\t\tResponse: BAD, Reason[" + response.message + "]")
+
         else:
             print("light with identifier[" + light_identifier + "] could not be found")
+
+
+def handle_switch_command(args, vapi):
+    """
+    Method to handle switch commands
+    :param args: command line args
+    :param vapi: veralite object
+    """
+    switches = vapi.switches
+    # handle light command
+    if "sub_command" not in args or args.sub_command is None or args.sub_command == "list":
+        header = "Switches"
+
+        list_devices(header, switches)
+
+
+def handle_motion_sensor_command(args, vapi):
+    """
+    Method to handle motion sensors commands
+    :param args: command line args
+    :param vapi: veralite object
+    """
+    motion_sensors = vapi.motion_sensors
+    # handle light command
+    if "sub_command" not in args or args.sub_command is None or args.sub_command == "list":
+        header = "Motion Sensors"
+
+        list_devices(header, motion_sensors)
+
+
+def list_devices(header, devices):
+    # sort by identifier
+    sorted_list = sorted(devices, key=lambda key: devices[key].identifier)
+    print("\t" + header + ":")
+    # print out values
+    for value in sorted_list:
+        print("\t\tID:[" + str(devices[value].identifier) + "]  Name:[" + devices[value].name + "]")
 
 
 if __name__ == '__main__':

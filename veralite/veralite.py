@@ -62,7 +62,7 @@ class Veralite(object):
         # handle processing rooms
         for room in rooms:
             if room["id"] not in self.rooms:
-                self.rooms[room["id"]] = room["name"]
+                self.rooms[int(room["id"])] = room["name"]
 
         # handle processing scenes
         for scene in available_scenes:
@@ -109,8 +109,8 @@ class Veralite(object):
                 brightness = state["value"]
 
         # add light to dictionary
-        self.dimming_lights[device["id"]] = DimmingLight(device["id"], device["name"], room_name, device_state,
-                                                         brightness)
+        self.dimming_lights[int(device["id"])] = DimmingLight(int(device["id"]), device["name"], room_name,
+                                                              device_state, brightness)
 
     def load_switch(self, device, room_name):
         """
@@ -125,7 +125,7 @@ class Veralite(object):
                 device_state = state["value"]
 
         # add light to dictionary
-        self.switches[device["id"]] = Switch(device["id"], device["name"], room_name, device_state)
+        self.switches[int(device["id"])] = Switch(int(device["id"]), device["name"], room_name, device_state)
 
     def load_sensor(self, device, room_name, motion=False):
         """
@@ -151,13 +151,8 @@ class Veralite(object):
 
         # add motion sensor to dictionary
         if motion:
-            self.motion_sensors[device["id"]] = MotionSensor(device["id"],
-                                                             device["name"],
-                                                             room_name,
-                                                             device_state,
-                                                             configured,
-                                                             capabilities,
-                                                             armed)
+            self.motion_sensors[int(device["id"])] = MotionSensor(int(device["id"]), device["name"], room_name,
+                                                                  device_state, configured, capabilities, armed)
 
     def turn_on_dimming_light(self, device):
         """
