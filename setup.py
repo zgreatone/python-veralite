@@ -23,7 +23,7 @@ setup(name='python-veralite',
       author_email='opessu@zgreatone.net',
       url='https://github.com/zgreatone/python-veralite/',
       packages=['veralite', 'test'],
-      install_requires=['simplejson'],
+      install_requires=['simplejson', 'requests'],
       entry_points={
           'console_scripts': ['veralite=veralite.command_line:main'],
       },
