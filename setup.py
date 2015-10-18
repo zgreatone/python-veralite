@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 import io
 
@@ -13,7 +13,6 @@ from setuptools import setup
 #                    significant enough to warrant a minor/major bump.
 version = '0.0.1'
 
-
 setup(name='python-veralite',
       version=version,
       description='Python API and command line tool for talking to the '
@@ -23,9 +22,14 @@ setup(name='python-veralite',
       author='Okpe Pessu',
       author_email='opessu@zgreatone.net',
       url='https://github.com/zgreatone/python-veralite/',
-      packages=['veralite'],
-      install_requires=['requests', 'simplejson'],
+      packages=['veralite', 'test'],
+      install_requires=['simplejson'],
       entry_points={
           'console_scripts': ['veralite=veralite.command_line:main'],
-      }
+      },
+      classifiers=[
+          "Development Status :: 3 - Alpha",
+          "Intended Audience :: Developers",
+          "Topic :: Utilities"
+      ]
       )
