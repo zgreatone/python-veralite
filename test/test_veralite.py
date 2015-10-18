@@ -10,6 +10,10 @@ from unittest.mock import MagicMock
 # Custom modules
 from veralite import veralite
 
+_NUM_SWITCHES = 7
+_NUM_LIGHTS = 10
+_NUM_MOTION_SENSORS = 3
+
 
 class TestVeralite(unittest.TestCase):
     def setUp(self):
@@ -26,13 +30,13 @@ class TestVeralite(unittest.TestCase):
         self.veralite.update_devices()
 
         switches = self.veralite.switches
-        self.assertEquals(7, len(switches))
+        self.assertEquals(_NUM_SWITCHES, len(switches))
 
         dimming_lights = self.veralite.dimming_lights
-        self.assertEquals(10, len(dimming_lights))
+        self.assertEquals(_NUM_LIGHTS, len(dimming_lights))
 
         motion_sensors = self.veralite.motion_sensors
-        self.assertEquals(3, len(motion_sensors))
+        self.assertEquals(_NUM_MOTION_SENSORS, len(motion_sensors))
 
 
 if __name__ == '__main__':

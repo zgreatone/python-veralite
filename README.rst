@@ -26,4 +26,53 @@ You can import the module as `veralite`.
 
     import veralite
 
+    ip = '192.168.1.89'
+    user = 'admin'
+    password = 'password'
 
+    vera_api = veralate.Veralite(ip, user, password)
+
+    vera_api.update_devices()
+
+
+Command line
+------------
+
+.. code-block:: bash
+
+    usage: command_line.py [-h] [--conf FILE] --ip IP -u USER -p PASSWORD
+                       {light,motion,switch} ...
+
+    Command line interface to Veralite™ Smart Home Controller
+
+    positional arguments:
+      {light,motion,switch}
+                        command help
+        light               light commands
+        motion              motion sensor commands
+        switch              switch commands
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      --conf FILE           config file (default ~/.config/command_line.py/config)
+      --ip IP               the ip for veralite system
+      -u USER, --user USER  username for veralite
+      -p PASSWORD, --password PASSWORD
+                        password for veralite
+
+
+    examples:
+        veralite --ip 192.168.1.22 -u veraadmin -p adminpassword switch modify --id 22 --on
+        veralite --ip 192.168.1.22 -u veraadmin -p adminpassword light list
+        veralite --ip 192.168.1.22 -u veraadmin -p adminpassword motion modify --id 10 --arm
+
+
+A configuration file can also be specified to prevent ip/user/password repitition.
+
+
+.. code-block:: ini
+
+    [DEFAULT]
+    ip = 192.168.1.55
+    user = theuser
+    password = mypassword

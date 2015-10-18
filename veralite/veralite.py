@@ -50,7 +50,7 @@ class Veralite(object):
 
     def update_devices(self):
         """
-        Method loads
+        Method populates devices with their current states
         :return:
         """
 
@@ -81,19 +81,19 @@ class Veralite(object):
                 # motion sensor
                 if "MotionSensor" in device["device_type"]:
 
-                    self.load_sensor(device, room_name, motion=True)
+                    self._load_sensor(device, room_name, motion=True)
 
                 elif ("DimmableLight" in device["device_type"] in device["device_type"]) \
                         and "Sensor" not in device["device_type"]:
 
-                    self.load_dimming_light(device, room_name)
+                    self._load_dimming_light(device, room_name)
 
                 elif ("BinaryLight" in device["device_type"] or "WeMoControllee" in device["device_type"]) \
                         and "Sensor" not in device["device_type"]:
 
-                    self.load_switch(device, room_name)
+                    self._load_switch(device, room_name)
 
-    def load_dimming_light(self, device, room_name):
+    def _load_dimming_light(self, device, room_name):
         """
 
         :param device:
@@ -112,7 +112,7 @@ class Veralite(object):
         self.dimming_lights[int(device["id"])] = DimmingLight(int(device["id"]), device["name"], room_name,
                                                               device_state, brightness)
 
-    def load_switch(self, device, room_name):
+    def _load_switch(self, device, room_name):
         """
 
         :param device:
@@ -127,7 +127,7 @@ class Veralite(object):
         # add light to dictionary
         self.switches[int(device["id"])] = Switch(int(device["id"]), device["name"], room_name, device_state)
 
-    def load_sensor(self, device, room_name, motion=False):
+    def _load_sensor(self, device, room_name, motion=False):
         """
 
         :param device:
