@@ -54,7 +54,7 @@ Command line
 
     optional arguments:
       -h, --help            show this help message and exit
-      --conf FILE           config file (default ~/.config/command_line.py/config)
+      --conf FILE           config file (default ~/.config/veralite/config)
       --ip IP               the ip for veralite system
       -u USER, --user USER  username for veralite
       -p PASSWORD, --password PASSWORD
