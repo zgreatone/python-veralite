@@ -2,8 +2,8 @@
 Python API and command line tool for the Veralite™ Smart Home Controller
 ========================================================================
 
-.. image:: url
-    :target: url
+.. image:: https://travis-ci.org/zgreatone/python-veralite.svg?branch=master
+    :target: https://travis-ci.org/zgreatone/python-veralite
 
 
 Installation
