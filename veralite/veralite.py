@@ -37,7 +37,7 @@ class Veralite(object):
     def __exit__(self, exc_type, exc_value, traceback):
         return False
 
-    def get_data(self):
+    def _get_data(self):
         """
         Method gets data through http request from veralite
         :return:
@@ -54,7 +54,7 @@ class Veralite(object):
         :return:
         """
 
-        response_content = self.get_data()
+        response_content = self._get_data()
         devices = response_content['devices']
         rooms = response_content['rooms']
         available_scenes = response_content['scenes']
@@ -95,9 +95,9 @@ class Veralite(object):
 
     def _load_dimming_light(self, device, room_name):
         """
-
-        :param device:
-        :param room_name:
+        Utility method to create DimmingLight Device
+        :param device: json object containing dimming light information
+        :param room_name: the room name string
         """
         # get device state
         brightness = None
@@ -114,9 +114,9 @@ class Veralite(object):
 
     def _load_switch(self, device, room_name):
         """
-
-        :param device:
-        :param room_name:
+        Utility method to create Switch device
+        :param device: json object containing switch information
+        :param room_name: the room name string
         """
         # get device state
         device_state = None
@@ -129,9 +129,9 @@ class Veralite(object):
 
     def _load_sensor(self, device, room_name, motion=False):
         """
-
-        :param device:
-        :param room_name:
+        Utility method to create Motion Sensor Device
+        :param device: json object containing Motion Sensor information
+        :param room_name: the room name string
         """
         configured = None
         capabilities = None
@@ -156,92 +156,85 @@ class Veralite(object):
 
     def turn_on_dimming_light(self, device):
         """
-
-        :param device:
-        :return:
+        Turns on `veralite.device.DimmingLight`
+        :param device: the `veralite.device.DimmingLight` object
+        :return: returns `dict`
         """
         try:
             response = utils.update_device_state(self.ip, self.user, self.password, device, "1")
-            # TODO update device for state change
             return response
         except Exception as e:
             return {'result': False, 'message': str(e)}
 
     def turn_off_dimming_light(self, device):
         """
-
-        :param device:
-        :return:
+        Turns off `veralite.device.DimmingLight`
+        :param device: the `veralite.device.DimmingLight` object
+        :return: returns `dict`
         """
         try:
             response = utils.update_device_state(self.ip, self.user, self.password, device, "0")
-            # TODO update device for state change
             return response
         except Exception as e:
             return {'result': False, 'message': str(e)}
 
     def set_brightness_level_dimming_light(self, device, level):
         """
-
-        :param device:
-        :param level:
-        :return:
+        Set the brightness level of `veralite.device.DimmingLight`
+        :param device: the `veralite.device.DimmingLight` object
+        :param level: the brightness level
+        :return: returns `dict`
         """
         try:
             response = utils.update_brightness(self.ip, self.user, self.password, device, level)
-            # TODO update device for state change
             return response
         except Exception as e:
             return {'result': False, 'message': str(e)}
 
     def turn_on_switch(self, device):
         """
-
-        :param device:
-        :return:
+        Turns on `veralite.device.Switch`
+        :param device: the `veralite.device.Switch` object
+        :return: returns `dict`
         """
         try:
             response = utils.update_device_state(self.ip, self.user, self.password, device, "1")
-            # TODO update device for state change
             return response
         except Exception as e:
             return {'result': False, 'message': str(e)}
 
     def turn_off_switch(self, device):
         """
-
-        :param device:
-        :return:
+        Turns off `veralite.device.Switch`
+        :param device: the `veralite.device.Switch` object
+        :return: returns `dict`
         """
         try:
             response = utils.update_device_state(self.ip, self.user, self.password, device, "0")
-            # TODO update device for state change
             return response
         except Exception as e:
             return {'result': False, 'message': str(e)}
 
     def arm_motion_sensor(self, device):
         """
-
-        :param device:
-        :return:
+        Arms `veralite.device.MotionSensor`
+        :param device: the `veralite.device.MotionSensor` object
+        :return: returns `dict`
         """
         try:
             response = utils.update_sensor_state(self.ip, self.user, self.password, device, "1")
-            # TODO update device for state change
             return response
         except Exception as e:
             return {'result': False, 'message': str(e)}
 
     def disarm_motion_sensor(self, device):
         """
-
-        :param device:
-        :return:
+        DisArms `veralite.device.MotionSensor`
+        :param device: the `veralite.device.MotionSensor` object
+        :return: returns `dict`
         """
         try:
             response = utils.update_sensor_state(self.ip, self.user, self.password, device, "0")
-            # TODO update device for state change
             return response
         except Exception as e:
             return {'result': False, 'message': str(e)}
