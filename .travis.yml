@@ -7,7 +7,7 @@ install:
 - pip install coverage
 script:
 - python -m unittest
-- nosetests --with-coverage --cover-package=veralite,device,scene,utils,scene,exceptions
+- nosetests --with-coverage --cover-package=veralite,device,scene,utils
 - python setup.py install
 - python setup.py sdist
 notifications:
