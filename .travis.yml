@@ -1,10 +1,15 @@
 language: python
 sudo: false
 python:
-  - "3.4"
+- '3.4'
 install:
-  - pip install -r requirements.txt
+- pip install -r requirements.txt
+- pip install coverage
 script:
-  - python -m unittest
-  - python setup.py install
-  - python setup.py sdist
+- python -m unittest
+- nosetests --with-coverage --cover-package=veralite,device,scene,utils
+- python setup.py install
+- python setup.py sdist
+notifications:
+  slack:
+    secure: t1+0lvREwDcrpPwFOwL7BVmhlIyWCfEOVGZw6HupNAa5ILbPc2iJgmOfyXDqY4evxcxzCQMO4LX6P0shEJnkdFuLdS2h+EUYj3MlrzL6+10kl+0fj+etaC9BB5Wjpmanf+qDjMtB0GmMGkaMMfJJ2dtqOA+jyCit3KyzHKxAVkG+1Z8awqeUfkcrqeUJB/OcIrGkaTmxB+7YG3NkNGelg2/1VTUFzSjHbzk695VdCX9FcsvI+Eg9f3qoVJN3JKrvRRcQKtDcmKYnYWe+vFZTR7yXWX5KSV9mTQDoVKVJqapGbAjUndzvQ6NnbApG1pCp3gWb9AGa++dFjFzDpvN6aLOX7+00LxLYKDLZ7FKsiVIDi2+tdFitK3zchCdRAbpKiegK68zFU67pOCwmJftFp1GqFq+c4EmSyzaJ9LeNDGMyrIrl8L3QKy63OUDJAsLy82+kNZWpPzUduVDNNrgcX+0d7tPYhj2Shc4GRJcDdJWSrNwAB/xHxPBXoHIhVNIRKDDbjuZ/2ptZAplGiKt1dPDGoNb2+sTiTvEaedQm0Fco+Q9o3OYJzcz1rRgEv6wd1QDuShKmbmSK2u20mP4WMr3dvdU/AKp8+Iy/zxnPUOuuqZAlDIaObEK6jNdr0qEcVw6+hOOB60GZzDZMR1MVxMb8S94RJb6EEpRqkqgPGJE=
