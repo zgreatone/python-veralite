@@ -25,6 +25,8 @@ from exceptions import VeraliteConnectionError
 # create logger
 logger = logging.getLogger('utils')
 
+_DEFUALT_TIMEOUT = 5
+
 # ERROR_CODES
 _CONNECTION_ISSUE = "0"
 _HTTP_ERROR = "1"
@@ -39,8 +41,17 @@ SENSOR_ENDPOINT = "/port_3480/data_request?id=lu_action&output_format=json&actio
 SENSOR_SERVICE = "urn:micasaverde-com:serviceId:SecuritySensor1"
 
 
-def perform_request(vera_ip, user, password, url_endpoint, params, timeout=4):
-    # TODO error checking
+def perform_get_request(vera_ip, user, password, url_endpoint, params, timeout=_DEFUALT_TIMEOUT):
+    """
+
+    :param vera_ip:
+    :param user:
+    :param password:
+    :param url_endpoint:
+    :param params:
+    :param timeout:
+    :return:
+    """
     params['rand'] = random.random()
     url = "http://" + vera_ip + url_endpoint
 
@@ -76,7 +87,7 @@ def update_brightness(vera_ip, user, password, device, target_brightness):
     params = {'serviceId': DIMMING_SERVICE, 'DeviceNum': device.identifier,
               'newLoadlevelTarget': target_brightness}
 
-    response_content = perform_request(vera_ip, user, password, DIMMING_ENDPOINT, params)
+    response_content = perform_get_request(vera_ip, user, password, DIMMING_ENDPOINT, params)
 
     if "ERROR" not in response_content:
         return {'result': True, 'message': response_content}
@@ -91,7 +102,7 @@ def update_sensor_state(vera_ip, user, password, device, new_state):
 
     params = {'serviceId': SENSOR_SERVICE, 'DeviceNum': device.identifier, 'newArmedValue': new_state}
 
-    response_content = perform_request(vera_ip, user, password, SENSOR_ENDPOINT, params)
+    response_content = perform_get_request(vera_ip, user, password, SENSOR_ENDPOINT, params)
 
     if "ERROR" not in response_content:
         return {'result': True, 'message': response_content}
@@ -106,7 +117,7 @@ def update_device_state(vera_ip, user, password, device, new_state):
 
     params = {'serviceId': LIGHT_SERVICE, 'DeviceNum': device.identifier, 'newTargetValue': new_state}
 
-    response_content = perform_request(vera_ip, user, password, LIGHT_ENDPOINT, params)
+    response_content = perform_get_request(vera_ip, user, password, LIGHT_ENDPOINT, params)
 
     if "ERROR" not in response_content:
         return {'result': True, 'message': response_content}

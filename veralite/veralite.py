@@ -13,7 +13,7 @@ from scene import Scene
 
 import utils
 
-DATA_ENDPOINT = '/port_3480/data_request?id=user_data'
+_DATA_ENDPOINT = '/port_3480/data_request?id=user_data'
 
 # create logger
 logger = logging.getLogger('veralite')
@@ -44,7 +44,7 @@ class Veralite(object):
         """
         logger.debug("retrieving data from veralite")
 
-        response_content = utils.perform_request(self.ip, self.user, self.password, DATA_ENDPOINT, {})
+        response_content = utils.perform_get_request(self.ip, self.user, self.password, _DATA_ENDPOINT, {})
 
         return response_content
 
