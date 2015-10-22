@@ -19,7 +19,7 @@ deploy:
   password: "$pypi_test_pass"
   server: "$pypi_test"
   on:
-    branch: develop
+    branch: deploy-test
     python: '3.4'
 - provider: pypi
   user: "$pypi_user"
