@@ -40,7 +40,7 @@ Command line
 
 .. code-block:: bash
 
-    usage: command_line.py [-h] [--conf FILE] --ip IP -u USER -p PASSWORD
+    usage: veralite [-h] [--conf FILE] --ip IP -u USER -p PASSWORD
                        {light,motion,switch} ...
 
     Command line interface to Veralite™ Smart Home Controller
