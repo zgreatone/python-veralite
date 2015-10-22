@@ -19,14 +19,14 @@ deploy:
   password: "$pypi_test_pass"
   server: "$pypi_test"
   on:
-    branch: deploy-test
+    branch: develop
     python: '3.4'
 - provider: pypi
   user: "$pypi_user"
   password: "$pypi_pass"
   server: "$pypi"
   on:
-    branch: deploy
+    branch: master
     python: '3.4'
 env:
   global:
