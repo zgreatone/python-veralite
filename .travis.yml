@@ -5,6 +5,9 @@ python:
 install:
 - pip install -r requirements.txt
 - pip install coverage
+- pip install codecov
+after_success:
+- codecov
 script:
 - python -m unittest
 - nosetests --with-coverage --cover-package=veralite,device,scene,utils
