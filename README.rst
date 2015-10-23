@@ -14,7 +14,7 @@ Python API and command line tool for the Veralite™ Smart Home Controller
    :target: https://pypi.python.org/pypi/python-veralite
    :alt: PyPI Monthly downloads
 
-.. image:: https://img.shields.io/codecov/c/github/scrapy/scrapy/master.svg
+.. image:: https://img.shields.io/codecov/c/github/zgreatone/python-veralite/master.svg
    :target: http://codecov.io/github/zgreatone/python-veralite?branch=master
    :alt: Coverage report
 
