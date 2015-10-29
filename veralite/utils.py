@@ -14,13 +14,13 @@ from requests.exceptions import Timeout
 from requests.exceptions import HTTPError
 from requests.exceptions import ConnectionError
 
-from device import Light
-from device import DimmingLight
-from device import Switch
-from device import MotionSensor
+from .device import Light
+from .device import DimmingLight
+from .device import Switch
+from .device import MotionSensor
 
-from exceptions import InvalidDeviceError
-from exceptions import VeraliteConnectionError
+from .exceptions import InvalidDeviceError
+from .exceptions import VeraliteConnectionError
 
 # create logger
 logger = logging.getLogger('utils')
