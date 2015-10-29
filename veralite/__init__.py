@@ -12,5 +12,12 @@ from .exceptions import VeraliteException
 from .exceptions import VeraliteConnectionError
 from .exceptions import InvalidDeviceError
 
-__all__ = ['Veralite', 'Scene', 'Device', 'DimmingLight', 'Switch', 'MotionSensor', 'VeraliteException',
-           'VeraliteConnectionError', 'InvalidDeviceError']
+__all__ = ['Veralite',
+           'Scene',
+           'Device',
+           'DimmingLight',
+           'Switch',
+           'MotionSensor',
+           'VeraliteException',
+           'VeraliteConnectionError',
+           'InvalidDeviceError']
