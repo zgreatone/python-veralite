@@ -11,7 +11,7 @@ from setuptools import setup
 #                Bumping Minor means API bugfix or new functionality.
 #                Bumping Micro means CLI change of any kind unless it is
 #                    significant enough to warrant a minor/major bump.
-version = '0.0.2'
+version = '0.0.3'
 
 setup(name='python-veralite',
       version=version,
@@ -23,7 +23,7 @@ setup(name='python-veralite',
       author_email='opessu@zgreatone.net',
       url='https://github.com/zgreatone/python-veralite/',
       packages=['veralite'],
-      install_requires=['simplejson', 'requests', 'configparser'],
+      install_requires=['simplejson', 'requests', 'configparser==3.5.0b2'],
       entry_points={
           'console_scripts': ['veralite=veralite.command_line:main'],
       },
