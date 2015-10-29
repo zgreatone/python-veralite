@@ -10,7 +10,7 @@ after_success:
 - codecov
 script:
 - python -m unittest
-- nosetests --with-coverage --cover-package=veralite,device,scene,utils
+- nosetests --with-coverage --cover-package=veralite
 - python setup.py install
 - python setup.py sdist
 notifications:

@@ -6,12 +6,12 @@
 """
 import logging
 
-from device import DimmingLight
-from device import Switch
-from device import MotionSensor
-from scene import Scene
+from .device import DimmingLight
+from .device import Switch
+from .device import MotionSensor
+from .scene import Scene
 
-import utils
+from . import utils
 
 _DATA_ENDPOINT = '/port_3480/data_request?id=user_data'
 
