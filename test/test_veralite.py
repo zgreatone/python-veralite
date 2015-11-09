@@ -13,7 +13,7 @@ from veralite import exceptions
 from veralite import veralite
 
 _NUM_SWITCHES = 7
-_NUM_LIGHTS = 10
+_NUM_LIGHTS = 8
 _NUM_MOTION_SENSORS = 3
 
 _RESPONSE_STRING = '{ "u:SetTargetResponse": { "JobID": "15585" } }'
