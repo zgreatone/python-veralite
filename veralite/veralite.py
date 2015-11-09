@@ -84,7 +84,8 @@ class Veralite(object):
                     self._load_sensor(device, room_name, motion=True)
 
                 elif ("DimmableLight" in device["device_type"] in device["device_type"]) \
-                        and "Sensor" not in device["device_type"]:
+                        and "Sensor" not in device["device_type"] \
+                        and ("Extended color light" in device["model"] or "Dimmable light" in device["model"]):
 
                     self._load_dimming_light(device, room_name)
 
