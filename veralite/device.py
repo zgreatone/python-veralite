@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 """Veralite™ Devices
    Okpe Pessu <opessu@zgreatone.net>
 
