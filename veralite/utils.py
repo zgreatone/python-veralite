@@ -23,6 +23,7 @@ from .device import MotionSensor
 from .scene import Scene
 
 from .exceptions import InvalidDeviceError
+from .exceptions import InvalidSceneError
 from .exceptions import VeraliteConnectionError
 
 # create logger
