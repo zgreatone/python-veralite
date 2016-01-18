@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 """Veralite™
    Okpe Pessu <opessu@zgreatone.net>
 
@@ -66,7 +67,7 @@ class Veralite(object):
 
         # handle processing scenes
         for scene in available_scenes:
-            self.scenes[str(scene["id"])] = Scene(str(str(scene["id"])), scene["name"])
+            self.scenes[int(scene["id"])] = Scene(str(str(scene["id"])), scene["name"])
 
         # handle processing devices
         for device in devices:
@@ -239,3 +240,15 @@ class Veralite(object):
             return response
         except Exception as e:
             return {'result': False, 'message': str(e)}
+
+    def run_scene(self, scene):
+        """
+        Run `veralite.scene.Scene`
+        :param scene: the `veralite.scene.Scene` object
+        :return: returns `dict`
+        """
+        try:
+         response = utils.update_scene(self.ip, self.user, self.password, scene, "0")
+         return response
+        except Exception as e:
+         return {'result': False, 'message': str(e)}

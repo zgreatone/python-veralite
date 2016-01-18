@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 """Python Veralite™
    Okpe Pessu <opessu@zgreatone.net>
 
@@ -21,5 +22,9 @@ class VeraliteConnectionError(VeraliteException):
 
 
 class InvalidDeviceError(VeraliteException):
+    def __init__(self, message):
+        VeraliteException.__init__(self, message)
+
+class InvalidSceneError(VeraliteException):
     def __init__(self, message):
         VeraliteException.__init__(self, message)
