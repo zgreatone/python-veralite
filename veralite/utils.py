@@ -47,8 +47,6 @@ SCENE_ENDPOINT = "/port_3480/data_request?id=lu_action&output_format=json&action
 SCENE_SERVICE = "urn:micasaverde-com:serviceId:HomeAutomationGateway1"
 
 
-
-
 def perform_get_request(vera_ip, user, password, url_endpoint, params, timeout=_DEFUALT_TIMEOUT):
     """
 
@@ -133,7 +131,6 @@ def update_device_state(vera_ip, user, password, device, new_state):
         return {'result': False, 'message': response_content}
 
 
-
 def update_scene(vera_ip, user, password, scene, new_state):
     # check to make sure scene is correct type 
     if type(scene) is not Scene:
@@ -141,7 +138,6 @@ def update_scene(vera_ip, user, password, scene, new_state):
 
     params = {'serviceId': SCENE_SERVICE, 'SceneNum': scene.identifier}
 
-     
     response_content = perform_get_request(vera_ip, user, password, SCENE_ENDPOINT, params)
     if "ERROR" not in response_content:
         return {'result': True, 'message': response_content}
