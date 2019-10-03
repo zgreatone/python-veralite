@@ -1,3 +1,3 @@
 simplejson==3.8.0
-requests==2.8.0
+requests==2.20.0
 configparser==3.5.0b2
